@@ -1,0 +1,117 @@
+basePath: /api/v1
+definitions:
+  middlewares.Success:
+    properties:
+      data:
+        type: object
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  models.Login:
+    properties:
+      account:
+        type: string
+      password:
+        type: string
+    type: object
+  models.Person:
+    properties:
+      city:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a backend server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Gin API Swagger
+  version: "1.0"
+paths:
+  /auth/:
+    post:
+      description: Login
+      parameters:
+      - description: body
+        in: body
+        name: polygon
+        required: true
+        schema:
+          $ref: '#/definitions/models.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success"  成功後返回的值
+          schema:
+            allOf:
+            - $ref: '#/definitions/middlewares.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Person'
+                  type: array
+              type: object
+      summary: Login
+      tags:
+      - Auth
+  /people/:
+    get:
+      description: get all People
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success"  成功後返回的值
+          schema:
+            allOf:
+            - $ref: '#/definitions/middlewares.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Person'
+                  type: array
+              type: object
+      summary: GetAll people
+      tags:
+      - People
+    post:
+      consumes:
+      - application/json
+      description: create People
+      parameters:
+      - description: body
+        in: body
+        name: polygon
+        required: true
+        schema:
+          $ref: '#/definitions/models.Person'
+      produces:
+      - application/json
+      - application/json
+      responses:
+        "200":
+          description: success"  成功後返回的值
+          schema:
+            allOf:
+            - $ref: '#/definitions/middlewares.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Person'
+                  type: array
+              type: object
+      summary: Create people
+      tags:
+      - People
+swagger: "2.0"
