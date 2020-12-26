@@ -5,8 +5,9 @@ import (
 )
 
 func InitRoutes(g *gin.RouterGroup) {
-	SetPersonRoutes(g)
 	SetAuthRoutes(g)
 	SetPrivateRoutes(g)
-
+	SetBlogRoutes(g)
+	SetEmojiRoutes(g)
+	SetCommentsRoutes(g)
 }

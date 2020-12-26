@@ -22,7 +22,7 @@ func Jwt(account string, role string) (string, error) {
 			Id:        jwtID,
 			IssuedAt:  now.Unix(),
 			Issuer:    "ginJWT",
-			NotBefore: now.Add(9 * time.Hour).Unix(),
+			NotBefore: now.Unix() - 1000,
 			Subject:   account,
 		},
 	}

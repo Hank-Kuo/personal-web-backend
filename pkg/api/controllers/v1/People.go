@@ -25,8 +25,8 @@ func (ctrl PeopleController) GetAll(c *gin.Context) {
 	var body []models.Person
 	var test models.Peo
 	//db.Model(&test).Association("companies")
-	db.Where("id = ?", 1).First(&test)
-	db.Model(test).Related(&test.Company)
+	//db.Where("id = ?", 1).First(&test)
+	// db.Model(test).Related(&test.Company)
 
 	fmt.Println(test)
 	if err := db.Find(&body).Error; err != nil {

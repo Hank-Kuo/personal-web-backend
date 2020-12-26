@@ -47,5 +47,5 @@ func main() {
 	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	// start server
-	engine.Run()
+	engine.Run(":3000")
 }

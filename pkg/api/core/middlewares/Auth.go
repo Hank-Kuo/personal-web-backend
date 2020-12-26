@@ -23,6 +23,7 @@ func AuthRequired(c *gin.Context) {
 	tokenClaims, err := jwt.ParseWithClaims(token, &dto.Claims{}, func(token *jwt.Token) (i interface{}, err error) {
 		return jwtSecret, nil
 	})
+	// fmt.Println(tokenClaims, err)
 
 	if err != nil {
 		// invalid token

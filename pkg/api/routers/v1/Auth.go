@@ -9,18 +9,22 @@ import (
 func SetAuthRoutes(router *gin.RouterGroup) {
 	authController := new(controllers.AuthController)
 
-	r := router.Group("auth")
+	r := router.Group("")
 	{
-		r.POST("/", authController.Login)
+		r.POST("/login", authController.Login)
+		r.POST("/register", authController.Register)
 	}
 }
 
 func SetPrivateRoutes(router *gin.RouterGroup) {
-	authorized := router.Group("aa")
+	blogController := new(controllers.BlogController)
+
+	authorized := router.Group("auth")
 	authorized.Use(middlewares.AuthRequired)
 	{
-		authorized.GET("/", func(c *gin.Context) {
+		authorized.GET("/test", func(c *gin.Context) {
 			c.JSON(200, gin.H{"message": "hello"})
 		})
+		authorized.POST("/blog", blogController.Post)
 	}
 }

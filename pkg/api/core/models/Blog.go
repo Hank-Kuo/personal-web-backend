@@ -6,15 +6,15 @@ import (
 )
 
 type Blog struct {
-	ID         uint      `json: "id"`
-	Title      string    `json: "title"`
-	CreateTime time.Time `json: "create_time"`
-	Tag        string    `json: "tag"`
-	Link       string    `json: "link"`
-	Visitor    int       `json: "visitor"`
-	Emoji      int       `json: "emoji"`
-	Like       int       `json: "like"`
-	ImgLink    string    `json: "img_link"`
+	ID         int       `gorm:"primaryKey"`
+	Title      string    `gorm:"NOT NULL"`
+	CreateTime time.Time `gorm:"NOT NULL"`
+	Tag        string    `gorm:"NOT NULL"`
+	Link       string    `gorm:"NOT NULL"`
+	Visitor    int       `gorm:"NOT NULL"`
+	ImgLink    string    `gorm:"NOT NULL"`
+	// Comments   []Comments `gorm:"ForeignKey:BlogID"`
+	// Emoji      Emoji      `gorm:"ForeignKey:BlogID"`
 }
 
 func (Blog) TableName() string {

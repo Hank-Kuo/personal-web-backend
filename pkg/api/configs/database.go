@@ -10,13 +10,14 @@ var db *gorm.DB
 var err error
 
 func ConnectDB() *gorm.DB {
-	db, err = gorm.Open("sqlite3", "../../gorm.db")
+	// db, err = gorm.Open("sqlite3", "../../gorm.db")
+	db, err = gorm.Open("sqlite3", "./gorm.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
 
 	db.LogMode(true)
-	db.AutoMigrate(&models.Person{}, &models.User{}, &models.Company{}, &models.Peo{})
+	db.AutoMigrate(&models.User{}, &models.Comments{}, &models.Emoji{}, &models.Blog{})
 	return db
 }
 

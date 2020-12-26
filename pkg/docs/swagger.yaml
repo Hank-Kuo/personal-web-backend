@@ -1,5 +1,171 @@
 basePath: /api/v1
 definitions:
+  dto.GetAllBlogResDto:
+    properties:
+      createTime:
+        type: string
+      id:
+        type: integer
+      imgLink:
+        type: string
+      tag:
+        type: string
+      title:
+        type: string
+      visitor:
+        type: integer
+    type: object
+  dto.GetBlogResDto:
+    properties:
+      comments:
+        items:
+          $ref: '#/definitions/dto.GetCommentsDto'
+        type: array
+      emoji:
+        $ref: '#/definitions/dto.GetEmojDto'
+      id:
+        type: integer
+      link:
+        type: string
+    type: object
+  dto.GetCommentsDto:
+    properties:
+      character:
+        type: integer
+      comment:
+        type: string
+      create_time:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  dto.GetCommentsResDto:
+    properties:
+      character:
+        type: integer
+      comment:
+        type: string
+      create_time:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  dto.GetEmojDto:
+    properties:
+      clap:
+        type: integer
+      funny:
+        type: integer
+      good:
+        type: integer
+      hard:
+        type: integer
+      id:
+        type: integer
+      love:
+        type: integer
+      mad:
+        type: integer
+      perfect:
+        type: integer
+      sad:
+        type: integer
+      wow:
+        type: integer
+    type: object
+  dto.GetEmojResDto:
+    properties:
+      clap:
+        type: integer
+      funny:
+        type: integer
+      good:
+        type: integer
+      hard:
+        type: integer
+      id:
+        type: integer
+      love:
+        type: integer
+      mad:
+        type: integer
+      perfect:
+        type: integer
+      sad:
+        type: integer
+      wow:
+        type: integer
+    type: object
+  dto.LoginReqDto:
+    properties:
+      account:
+        type: string
+      password:
+        type: string
+    required:
+    - account
+    - password
+    type: object
+  dto.LoginResDto:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      role:
+        type: string
+      token:
+        type: string
+    type: object
+  dto.PeopleDto:
+    properties:
+      city:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+    required:
+    - city
+    - first_name
+    - last_name
+    type: object
+  dto.PutEmojiReqDto:
+    properties:
+      clap:
+        type: integer
+      funny:
+        type: integer
+      good:
+        type: integer
+      hard:
+        type: integer
+      love:
+        type: integer
+      mad:
+        type: integer
+      perfect:
+        type: integer
+      sad:
+        type: integer
+      wow:
+        type: integer
+    type: object
+  dto.PutEmojiResDto:
+    type: object
+  middlewares.Error:
+    properties:
+      error_code:
+        type: integer
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
   middlewares.Success:
     properties:
       data:
@@ -8,13 +174,6 @@ definitions:
         type: string
       success:
         type: boolean
-    type: object
-  models.Login:
-    properties:
-      account:
-        type: string
-      password:
-        type: string
     type: object
   models.Person:
     properties:
@@ -47,24 +206,180 @@ paths:
         name: polygon
         required: true
         schema:
-          $ref: '#/definitions/models.Login'
+          $ref: '#/definitions/dto.LoginReqDto'
       produces:
       - application/json
       responses:
         "200":
-          description: success"  成功後返回的值
+          description: success
           schema:
             allOf:
             - $ref: '#/definitions/middlewares.Success'
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/models.Person'
+                    $ref: '#/definitions/dto.LoginResDto'
                   type: array
               type: object
       summary: Login
       tags:
       - Auth
+  /blog/:
+    get:
+      description: get all Blog
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middlewares.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.GetAllBlogResDto'
+                  type: array
+              type: object
+      summary: GetAll blog
+      tags:
+      - Blog
+  /blog/{id}:
+    get:
+      description: get Blog
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middlewares.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.GetBlogResDto'
+              type: object
+        "400":
+          description: Need ID
+          schema:
+            $ref: '#/definitions/middlewares.Error'
+        "404":
+          description: Not find ID
+          schema:
+            $ref: '#/definitions/middlewares.Error'
+      summary: Get blog
+      tags:
+      - Blog
+  /comments/{id}:
+    get:
+      description: post comments
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middlewares.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.GetCommentsResDto'
+              type: object
+        "400":
+          description: Need ID
+          schema:
+            $ref: '#/definitions/middlewares.Error'
+        "404":
+          description: Not find ID
+          schema:
+            $ref: '#/definitions/middlewares.Error'
+      summary: get comments
+      tags:
+      - Comments
+  /emoji/{id}:
+    get:
+      description: get emoji
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middlewares.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.GetEmojResDto'
+              type: object
+        "400":
+          description: Need ID
+          schema:
+            $ref: '#/definitions/middlewares.Error'
+        "404":
+          description: Not find ID
+          schema:
+            $ref: '#/definitions/middlewares.Error'
+      summary: get emoji
+      tags:
+      - Emoji
+    put:
+      consumes:
+      - application/json
+      description: put emoji
+      parameters:
+      - description: body
+        in: body
+        name: polygon
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PutEmojiReqDto'
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            allOf:
+            - $ref: '#/definitions/middlewares.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/dto.PutEmojiResDto'
+              type: object
+        "400":
+          description: Need ID
+          schema:
+            $ref: '#/definitions/middlewares.Error'
+        "404":
+          description: Not find ID
+          schema:
+            $ref: '#/definitions/middlewares.Error'
+      summary: put emoji
+      tags:
+      - Emoji
   /people/:
     get:
       description: get all People
@@ -95,7 +410,7 @@ paths:
         name: polygon
         required: true
         schema:
-          $ref: '#/definitions/models.Person'
+          $ref: '#/definitions/dto.PeopleDto'
       produces:
       - application/json
       - application/json

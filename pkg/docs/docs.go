@@ -46,13 +46,13 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Login"
+                            "$ref": "#/definitions/dto.LoginReqDto"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "success\"  成功後返回的值",
+                        "description": "success",
                         "schema": {
                             "allOf": [
                                 {
@@ -64,12 +64,270 @@ var doc = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/models.Person"
+                                                "$ref": "#/definitions/dto.LoginResDto"
                                             }
                                         }
                                     }
                                 }
                             ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/": {
+            "get": {
+                "description": "get all Blog",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "GetAll blog",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middlewares.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/dto.GetAllBlogResDto"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/{id}": {
+            "get": {
+                "description": "get Blog",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Get blog",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middlewares.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.GetBlogResDto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Need ID",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not find ID",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/comments/{id}": {
+            "get": {
+                "description": "post comments",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "get comments",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middlewares.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.GetCommentsResDto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Need ID",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not find ID",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/emoji/{id}": {
+            "get": {
+                "description": "get emoji",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Emoji"
+                ],
+                "summary": "get emoji",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middlewares.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.GetEmojResDto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Need ID",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not find ID",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.Error"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "put emoji",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/json"
+                ],
+                "tags": [
+                    "Emoji"
+                ],
+                "summary": "put emoji",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "polygon",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.PutEmojiReqDto"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/middlewares.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.PutEmojiResDto"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Need ID",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not find ID",
+                        "schema": {
+                            "$ref": "#/definitions/middlewares.Error"
                         }
                     }
                 }
@@ -129,7 +387,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Person"
+                            "$ref": "#/definitions/dto.PeopleDto"
                         }
                     }
                 ],
@@ -160,6 +418,259 @@ var doc = `{
         }
     },
     "definitions": {
+        "dto.GetAllBlogResDto": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "imgLink": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "visitor": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.GetBlogResDto": {
+            "type": "object",
+            "properties": {
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.GetCommentsDto"
+                    }
+                },
+                "emoji": {
+                    "$ref": "#/definitions/dto.GetEmojDto"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "link": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.GetCommentsDto": {
+            "type": "object",
+            "properties": {
+                "character": {
+                    "type": "integer"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.GetCommentsResDto": {
+            "type": "object",
+            "properties": {
+                "character": {
+                    "type": "integer"
+                },
+                "comment": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.GetEmojDto": {
+            "type": "object",
+            "properties": {
+                "clap": {
+                    "type": "integer"
+                },
+                "funny": {
+                    "type": "integer"
+                },
+                "good": {
+                    "type": "integer"
+                },
+                "hard": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "love": {
+                    "type": "integer"
+                },
+                "mad": {
+                    "type": "integer"
+                },
+                "perfect": {
+                    "type": "integer"
+                },
+                "sad": {
+                    "type": "integer"
+                },
+                "wow": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.GetEmojResDto": {
+            "type": "object",
+            "properties": {
+                "clap": {
+                    "type": "integer"
+                },
+                "funny": {
+                    "type": "integer"
+                },
+                "good": {
+                    "type": "integer"
+                },
+                "hard": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "love": {
+                    "type": "integer"
+                },
+                "mad": {
+                    "type": "integer"
+                },
+                "perfect": {
+                    "type": "integer"
+                },
+                "sad": {
+                    "type": "integer"
+                },
+                "wow": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.LoginReqDto": {
+            "type": "object",
+            "required": [
+                "account",
+                "password"
+            ],
+            "properties": {
+                "account": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.LoginResDto": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.PeopleDto": {
+            "type": "object",
+            "required": [
+                "city",
+                "first_name",
+                "last_name"
+            ],
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.PutEmojiReqDto": {
+            "type": "object",
+            "properties": {
+                "clap": {
+                    "type": "integer"
+                },
+                "funny": {
+                    "type": "integer"
+                },
+                "good": {
+                    "type": "integer"
+                },
+                "hard": {
+                    "type": "integer"
+                },
+                "love": {
+                    "type": "integer"
+                },
+                "mad": {
+                    "type": "integer"
+                },
+                "perfect": {
+                    "type": "integer"
+                },
+                "sad": {
+                    "type": "integer"
+                },
+                "wow": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.PutEmojiResDto": {
+            "type": "object"
+        },
+        "middlewares.Error": {
+            "type": "object",
+            "properties": {
+                "error_code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        },
         "middlewares.Success": {
             "type": "object",
             "properties": {
@@ -171,17 +682,6 @@ var doc = `{
                 },
                 "success": {
                     "type": "boolean"
-                }
-            }
-        },
-        "models.Login": {
-            "type": "object",
-            "properties": {
-                "account": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
                 }
             }
         },

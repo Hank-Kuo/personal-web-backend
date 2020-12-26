@@ -1,12 +1,25 @@
 package models
 
-import "time"
+import (
+	"github.com/jinzhu/gorm"
+	"time"
+)
 
 type Comments struct {
-	ID uint `json: "id"`
-	BlogID int `json: "bolg_id"`
-	Comment string `json: "comment"`
-	CreatTime time.Time `json: "create_time"`
-	Good int `json: "good"`
-	Bad int `json: "bad"`
+	ID         int       `gorm:"primaryKey"`
+	BlogID     int       `gorm:"NOT NULL" sql:"type:integer REFERENCES Blog(id)"`
+	Name       string    `gorm:"NOT NULL"`
+	Comment    string    `gorm:"NOT NULL"`
+	CreateTime time.Time `gorm:"NOT NULL"`
+	Character  int       `gorm:"NOT NULL"`
+}
+
+func (Comments) TableName() string {
+	return "Comments"
+}
+
+func CommentsTable() func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Table("Comments")
+	}
 }
