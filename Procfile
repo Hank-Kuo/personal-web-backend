@@ -1,1 +1,1 @@
-web cd bin && make build-linux && cd ../ && cd build && ./server
+web cd bin && make build && cd ../ && cd build && ./server
