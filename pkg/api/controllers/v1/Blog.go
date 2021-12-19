@@ -2,7 +2,7 @@ package v1
 
 import (
 	dto "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/dto"
-	libs "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/lib"
+	libs "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/libs"
 	middlewares "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/middlewares"
 	models "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/models"
 
