@@ -1,9 +1,9 @@
 package main
 
 import (
-	// configs "https://github.com/Hank-Kuo/personal-web-backend/pkg/api/configs"
-	configs "github.com/Hank-Kuo/personal-web-backend/pkg/api/configs"
+	configs "github.com/Hank-Kuo/personal-web-backend/config"
 	middlewares "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/middlewares"
+	database "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/models"
 	routers "github.com/Hank-Kuo/personal-web-backend/pkg/api/routers/v1"
 	_ "github.com/Hank-Kuo/personal-web-backend/pkg/docs"
 
@@ -23,12 +23,13 @@ import (
 // @BasePath /api/v1
 func main() {
 	// init DB
-	db := configs.ConnectDB()
-	defer configs.CloseDB()
+	config := configs.GetConf("dev")
+
+	db := database.ConnectDB(config.Database.Adapter, config.Database.Host)
+	defer database.CloseDB()
 
 	// init Server
-	port := 8080
-	fmt.Println("Server Running on Port: ", port)
+	fmt.Println("Server Running on Port: ", config.Server.Port)
 	engine := gin.New()
 
 	// middleware
@@ -41,7 +42,7 @@ func main() {
 	})
 
 	// init Routes
-	v1 := engine.Group("/api/v1")
+	v1 := engine.Group("/api/" + config.Server.Version)
 	routers.InitRoutes(v1)
 
 	// import swagger
@@ -49,5 +50,5 @@ func main() {
 	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	// start server
-	engine.Run(":3000")
+	engine.Run(":" + config.Server.Port)
 }

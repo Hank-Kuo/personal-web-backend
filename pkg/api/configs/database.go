@@ -2,7 +2,7 @@ package configs
 
 import (
 	models "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/models"
-	// models "WebBackend/pkg/api/core/models"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )

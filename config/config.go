@@ -7,27 +7,30 @@ import (
 
 type Config struct {
 	Server struct {
-		Port string `yaml:"port"`
-		Host string `yaml:"host"`
-		Mode string `yaml:"mode"`
+		Port    string `yaml:"port"`
+		Host    string `yaml:"host"`
+		Mode    string `yaml:"mode"`
+		Version string `yaml:"version"`
 	} `yaml:"server"`
 
 	Database struct {
-		Adapter string `yaml:"adapter"`
 		Host    string `yaml:"host"`
-	} `yaml:"databaser"`
+		Adapter string `yaml:"adapter"`
+	} `yaml:"database"`
 }
 
-func getConf(mode string) (*Config, error) {
-	yamlPath := "config." + mode + ".yml"
+func GetConf(mode string) *Config {
+	yamlPath := "../config/config." + mode + ".yml"
 	yamlFile, err := ioutil.ReadFile(yamlPath)
+
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
+
 	c := &Config{}
 	err = yaml.Unmarshal(yamlFile, c)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
-	return c, nil
+	return c
 }
