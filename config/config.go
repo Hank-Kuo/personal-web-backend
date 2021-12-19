@@ -6,11 +6,12 @@ import (
 )
 
 type Config struct {
+	Version string `yaml:"version"`
+
 	Server struct {
-		Port    string `yaml:"port"`
-		Host    string `yaml:"host"`
-		Mode    string `yaml:"mode"`
-		Version string `yaml:"version"`
+		Port string `yaml:"port"`
+		Host string `yaml:"host"`
+		Mode string `yaml:"mode"`
 	} `yaml:"server"`
 
 	Database struct {

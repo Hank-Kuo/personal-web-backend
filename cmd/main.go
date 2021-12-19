@@ -42,7 +42,7 @@ func main() {
 	})
 
 	// init Routes
-	v1 := engine.Group("/api/" + config.Server.Version)
+	v1 := engine.Group("/api/" + config.Version)
 	routers.InitRoutes(v1)
 
 	// import swagger
