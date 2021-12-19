@@ -1,7 +1,8 @@
 package v1
 
 import (
-	controllers "WebBackend/pkg/api/controllers/v1"
+	controllers "github.com/Hank-Kuo/personal-web-backend/pkg/api/controllers/v1"
+
 	"github.com/gin-gonic/gin"
 )
 

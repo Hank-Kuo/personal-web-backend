@@ -1,8 +1,9 @@
 package v1
 
 import (
-	controllers "WebBackend/pkg/api/controllers/v1"
-	middlewares "WebBackend/pkg/api/core/middlewares"
+	controllers "github.com/Hank-Kuo/personal-web-backend/pkg/api/controllers/v1"
+	middlewares "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/middlewares"
+
 	"github.com/gin-gonic/gin"
 )
 

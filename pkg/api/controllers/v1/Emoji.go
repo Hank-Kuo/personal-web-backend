@@ -1,9 +1,10 @@
 package v1
 
 import (
-	dto "WebBackend/pkg/api/core/dto"
-	middlewares "WebBackend/pkg/api/core/middlewares"
-	models "WebBackend/pkg/api/core/models"
+	dto "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/dto"
+	middlewares "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/middlewares"
+	models "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/models"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 )

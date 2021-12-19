@@ -1,8 +1,9 @@
 package middlewares
 
 import (
-	configs "WebBackend/pkg/api/configs"
-	dto "WebBackend/pkg/api/core/dto"
+	configs "github.com/Hank-Kuo/personal-web-backend/pkg/api/configs"
+	dto "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/dto"
+
 	"github.com/dgrijalva/jwt-go"
 	"strconv"
 	"time"
