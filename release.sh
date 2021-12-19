@@ -1,1 +1,1 @@
-cd cmd && go build && ./main
+cd cmd && go build main.go && ./main
