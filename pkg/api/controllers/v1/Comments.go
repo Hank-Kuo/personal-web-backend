@@ -52,8 +52,8 @@ func (ctrl CommentsController) Post(c *gin.Context) {
 		middlewares.ResponseError(c, 1004, "", err)
 	} else {
 		rand.Seed(time.Now().UnixNano())
-		number := rand.Intn(22) + 1 // 1~23
-		loc := time.FixedZone("UTC-8", 8*60*60)
+		number := rand.Intn(22) + 1                // 1~23
+		loc, _ := time.LoadLocation("Asia/Taipei") //time.FixedZone("UTC-8", 8*60*60)
 		now := time.Now().In(loc)
 		body.CreateTime = now
 		body.Character = number

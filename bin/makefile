@@ -1,5 +1,6 @@
 # Go parameters
 GOCMD=go
+GORUN=$(GOCMD) run
 GOBUILD=$(GOCMD) build
 GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
@@ -19,8 +20,8 @@ clean:
 	rm -f $(BINARY_NAME)
 	rm -f $(BINARY_UNIX)
 run:
-	$(GOBUILD) -o $(BINARY_NAME) -v ./...
-	./$(BINARY_NAME)
+	$(GORUN) $(LOCAL_FILE)
+	
 
 
 # Cross compilation
