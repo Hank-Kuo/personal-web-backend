@@ -1,1 +1,1 @@
-web cd bin && make build && cd ../ && cd build && ./server
+release: bash release.sh
