@@ -25,11 +25,16 @@ func main() {
 	// init DB
 	config := configs.GetConf("dev")
 
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = config.Server.Port // Default port if not specified
+	}
+
 	db := database.ConnectDB(config.Database.Adapter, config.Database.Host)
 	defer database.CloseDB()
 
 	// init Server
-	fmt.Println("Server Running on Port: ", config.Server.Port)
+	fmt.Println("Server Running on Port: ", port)
 	engine := gin.New()
 
 	// middleware
@@ -50,5 +55,5 @@ func main() {
 	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 	// start server
-	engine.Run(":" + config.Server.Port)
+	engine.Run(":" + port)
 }
