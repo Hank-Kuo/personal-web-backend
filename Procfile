@@ -1,1 +1,1 @@
-web: bin/personal-web-backend
+web: bin/cmd
