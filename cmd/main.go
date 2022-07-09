@@ -1,60 +1,50 @@
 package main
 
 import (
-	configs "github.com/Hank-Kuo/personal-web-backend/config"
-	middlewares "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/middlewares"
-	database "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/models"
-	routers "github.com/Hank-Kuo/personal-web-backend/pkg/api/routers/v1"
-	_ "github.com/Hank-Kuo/personal-web-backend/pkg/docs"
-
 	"fmt"
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	"os"
+	"log"
+
+	"github.com/Hank-Kuo/personal-web-backend/config"
+	// middlewares "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/middlewares"
+
+	// _ "github.com/Hank-Kuo/personal-web-backend/pkg/docs"
+	// "github.com/gin-gonic/gin"
+	// swaggerFiles "github.com/swaggo/files"
+	// ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/Hank-Kuo/personal-web-backend/internal/server"
+	"github.com/Hank-Kuo/personal-web-backend/pkg/database"
+	"github.com/Hank-Kuo/personal-web-backend/pkg/logger"
 )
 
-// @title Gin API Swagger
-// @version 1.0
-// @description This is a backend server.
-// @termsOfService http://swagger.io/terms/
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8080
-// @BasePath /api/v1
 func main() {
-	// init DB
-	config := configs.GetConf("dev")
+	log.Println("Starting api server")
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = config.Server.Port // Default port if not specified
+	// init config
+	cfg, err := config.GetConf()
+	if err != nil {
+		panic(fmt.Errorf("load config: %v", err))
 	}
 
-	db := database.ConnectDB(config.Database.Adapter, config.Database.Host)
-	defer database.CloseDB()
+	// init logger
+	apiLogger := logger.NewApiLogger(cfg)
+	apiLogger.InitLogger()
 
-	// init Server
-	fmt.Println("Server Running on Port: ", port)
-	engine := gin.New()
+	// init database
+	db, err := database.ConnectDB(&cfg.Database)
+	if err != nil {
+		panic(fmt.Errorf("load database: %v", err))
+	}
+	defer db.Close()
 
-	// middleware
-	engine.Use(gin.Logger(), gin.Recovery(), middlewares.CORSMiddleware())
-	engine.NoMethod(middlewares.HandleNotFound)
-	engine.NoRoute(middlewares.HandleNotFound)
-	engine.Use(func(c *gin.Context) {
-		c.Set("db", db)
-		c.Next()
-	})
+	// init in-memory cache
+	cache, err := database.ConnectCacheDB(&cfg.Cache)
+	if err != nil {
+		panic(fmt.Errorf("load cache: %v", err))
+	}
 
-	// init Routes
-	v1 := engine.Group("/api/" + config.Version)
-	routers.InitRoutes(v1)
-
-	// import swagger
-	url := ginSwagger.URL("http://localhost:8080/swagger/doc.json")
-	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
-
-	// start server
-	engine.Run(":" + port)
+	// init server
+	srv := server.NewServer(cfg, db, cache, apiLogger)
+	if err = srv.Run(); err != nil {
+		apiLogger.Fatal(err)
+	}
 }

@@ -1,4 +1,21 @@
 server:
-  host: 127.0.0.1
-  port: 8080
-  
+  host: ${HOST}
+  port: ${PORT}
+  debug: true
+  timeout:
+    read: 1000
+    write: 1000
+
+database:
+  adapter: "sqlite3"
+  datatype: "sqlite3"
+  host: "./gorm.db"
+  username: "root"
+  password: ""
+  port: ""
+  max_conns: 20
+  max_liftime_conns: 7200
+
+
+toke:
+  jwt: ${JWT}

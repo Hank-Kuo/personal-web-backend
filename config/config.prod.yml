@@ -1,7 +1,7 @@
 server:
-  host: 127.0.0.1
-  port: 8080
-  mode: "debug"
+  host: ${HOST}
+  port: ${PORT}
+  debug: false
   timeout:
     read: 1000
     write: 1000
@@ -13,6 +13,8 @@ database:
   username: "root"
   password: ""
   port: ""
+  max_conns: 20
+  max_liftime_conns: 7200
 
 toke:
-  jwt: "secret"
+  jwt: ${JWT}

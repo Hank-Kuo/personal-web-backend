@@ -1,23 +1,48 @@
-version: v1
-
 server:
-  host: 0.0.0.0
-  port: 3000
-  mode: debug
-  timeout:
-    read: 1000
-    write: 1000
+  host: ${HOST}
+  port: ${PORT}
+  debug: true
+  readTimeout: 5
+  writeTimeout: 5
+  contextTimeout: 5
+  rateLimitPerSec: 10
+  accessJWT: ${ACCESS_JWT}
+  refreshJWT: ${REFRESH_JWT}
+  jwtExpireTime: 86400
+  timezone: Asia/Taipei
 
 database:
   adapter: "sqlite3"
-  datatype: "sqlite3"
-  host: "./gorm.db"
-  username: "root"
+  host: "./sqlite3.db"
+  username: ""
+  password: ""
+  db: ""
+  port: ""
+  maxConns: 20
+  maxLiftimeConns: 7200
+
+cache:
+  adapter: "bigcache"
+  maxLiftime: 10
+
+redis:
+  adapter: "redis"
+  host: "127.0.0.1"
+  username: ""
   password: ""
   port: ""
-  max_conns: 20
-  max_liftime_conns: 7200
+  db: 0
+  maxConns: 20
+  maxLiftimeConns: 7200
 
-
-toke:
-  jwt: "secret"
+logger:
+  development: false
+  disableCaller: false
+  disableStacktrace: false
+  encoding: json
+  level: info
+  filename: assets/access.log
+  fileMaxSize: 10
+  fileMaxAge: 30
+  fileMaxBackups: 5
+  fileIsCompress: false
