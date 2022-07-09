@@ -5,12 +5,7 @@ import (
 	"log"
 
 	"github.com/Hank-Kuo/personal-web-backend/config"
-	// middlewares "github.com/Hank-Kuo/personal-web-backend/pkg/api/core/middlewares"
 
-	// _ "github.com/Hank-Kuo/personal-web-backend/pkg/docs"
-	// "github.com/gin-gonic/gin"
-	// swaggerFiles "github.com/swaggo/files"
-	// ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/Hank-Kuo/personal-web-backend/internal/server"
 	"github.com/Hank-Kuo/personal-web-backend/pkg/database"
 	"github.com/Hank-Kuo/personal-web-backend/pkg/logger"
