@@ -52,7 +52,7 @@ func (r *blogRepo) Fetch(ctx context.Context, p *utils.PaginationQuery) (*[]mode
 	}
 
 	blogs := []model.Blog{}
-	if err = r.db.SelectContext(ctx, &blogs, "SELECT * FROM blog LIMIT ?, ?", p.GetOffset(), p.GetLimit()); err != nil {
+	if err = r.db.SelectContext(ctx, &blogs, "SELECT * FROM blog ORDER BY "+p.GetOrderBy()+" DESC LIMIT ?, ?", p.GetOffset(), p.GetLimit()); err != nil {
 		return nil, nil, errors.Wrap(err, "blogRepo.Fetch")
 	}
 	return &blogs, pagination, nil

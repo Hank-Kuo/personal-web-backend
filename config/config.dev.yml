@@ -9,7 +9,7 @@ server:
   accessJWT: ${ACCESS_JWT}
   refreshJWT: ${REFRESH_JWT}
   jwtExpireTime: 86400
-  timezone: Asia/Taipei
+  timezone: UTC
 
 database:
   adapter: "sqlite3"

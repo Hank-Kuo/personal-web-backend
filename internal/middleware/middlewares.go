@@ -18,7 +18,7 @@ func NewMiddlewares(cfg *config.Config, userUC user.Usecase, logger logger.Logge
 }
 
 func NewGlobalMiddlewares(engine *gin.Engine) {
-	engine.Use(gin.Logger(), gin.Recovery(), CORSMiddleware())
+	engine.Use(CORSMiddleware())
 	engine.NoMethod(httpNotFound)
 	engine.NoRoute(httpNotFound)
 }

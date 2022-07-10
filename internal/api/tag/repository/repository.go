@@ -28,7 +28,7 @@ func (r *tagRepo) Fetch(ctx context.Context, p *utils.PaginationQuery) (*[]model
 	}
 
 	tags := []model.Tag{}
-	if err = r.db.SelectContext(ctx, &tags, "SELECT * FROM tag LIMIT ?, ?", p.GetOffset(), p.GetLimit()); err != nil {
+	if err = r.db.SelectContext(ctx, &tags, "SELECT * FROM tag ORDER BY "+p.GetOrderBy()+" DESC LIMIT ?, ?", p.GetOffset(), p.GetLimit()); err != nil {
 		return nil, nil, errors.Wrap(err, "tagRepo.Fetch")
 	}
 

@@ -219,7 +219,7 @@ func (u *blogUC) Create(c context.Context, blog *dto.CreateBlogDto) error {
 	ctx, cancel := context.WithTimeout(c, u.cfg.Server.ContextTimeout)
 	defer cancel()
 
-	id, err := u.blogRepo.Create(ctx, &model.Blog{Title: blog.Title, Link: blog.Link, ImgLink: blog.ImgLink})
+	id, err := u.blogRepo.Create(ctx, &model.Blog{Title: blog.Title, Link: blog.Link, ImgLink: blog.ImgLink, CreatedAt: utils.GetCurrentTime(u.cfg)})
 	if err != nil {
 		return utils.HttpError{Message: "can't create blog from blog repo", Detail: err}
 	}

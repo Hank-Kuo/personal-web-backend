@@ -34,6 +34,7 @@ func NewServer(cfg *config.Config, db *sqlx.DB, cache *bigcache.BigCache, logger
 }
 
 func (s *Server) Run() error {
+	middleware.NewGlobalMiddlewares(s.engine)
 
 	server := &http.Server{
 		Addr:           ":" + s.cfg.Server.Port,
@@ -44,8 +45,6 @@ func (s *Server) Run() error {
 	}
 
 	s.registerHanders()
-	middleware.NewGlobalMiddlewares(s.engine)
-
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			s.logger.Fatalf("Error http ListenAndServe: %s", err)

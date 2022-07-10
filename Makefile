@@ -24,9 +24,11 @@ PG_DATABASE ?=
 
 
 # Go command
-run:
+dev:
+	@export MODE=dev;\
 	go run ./cmd/main.go
 build:
+	@export MODE=prod;\
 	go build -o bin/ ./cmd/main.go
 test:
 	go test -cover ./...
@@ -65,9 +67,6 @@ mysql-down:
 	migrate -database "mysql://$(MYSQL_USER):$(MYSQL_PASSWORD)@tcp($(MYSQL_HOST):3306)/$(MYSQL_DATABASE)" -path migrations/mysql down $(MIG_VER)
 
 
-# Docker compose commands
-dev:
-	@go run ./cmd/main.go
 
 # Docker commands
 DOCKER_CMD := $(shell docker ps -aq)

@@ -34,7 +34,8 @@ func (r *commentRepo) GetByBlogID(ctx context.Context, blogID int, p *utils.Pagi
 	}
 
 	comment := []model.Comment{}
-	if err = r.db.SelectContext(ctx, &comment, "SELECT * FROM comment WHERE blog_id = ? LIMIT ?, ?", blogID, p.GetOffset(), p.GetLimit()); err != nil {
+
+	if err = r.db.SelectContext(ctx, &comment, "SELECT * FROM comment WHERE blog_id = ? ORDER BY "+p.GetOrderBy()+" DESC LIMIT ?, ?", blogID, p.GetOffset(), p.GetLimit()); err != nil {
 		return nil, nil, errors.Wrap(err, "commentRepo.GetByBlogID")
 	}
 
