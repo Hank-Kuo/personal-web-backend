@@ -32,7 +32,9 @@ build:
 	go build -o bin/ ./cmd/main.go
 test:
 	go test -cover ./...
-
+heroku:
+	@export MODE=prod;\
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/ ./cmd/main.go  && ./bin/main
 ### Go modules support
 deps-reset:
 	git checkout -- go.mod
