@@ -20,13 +20,14 @@ ENV PORT = "8080"
 COPY . .
 ENV GOOS=linux
 ENV GOARCH=amd64
-RUN go build -o bin/ ./cmd/main.go
+RUN go build -o ./bin/server ./cmd/main.go
 
 ### Put the binary onto base image
 FROM plugins/base:linux-amd64
 LABEL maintainer="Hank Kuo <asdf024681029@gmail.com>"
 EXPOSE 8080
-COPY --from=server_builder /bin /bin
-COPY ./sqlite3.db /sqlite3.db 
+COPY --from=server_builder ./bin/ ./bin/
+COPY ./config ./config
+COPY ./sqlite3.db ./sqlite3.db 
 
-CMD ["/bin/main"]
+CMD ["./bin/server"]
